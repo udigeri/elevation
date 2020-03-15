@@ -24,7 +24,6 @@ data=open("8674.gpx", encoding="utf-8")
 
 tree = et.parse(data)
 root = tree.getroot()
-tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
 tzt_figure_name=""
 tzt_name=""
@@ -54,14 +53,15 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    wpt_lon_list.append(round(float(value),5))
+                    wpt_lon_list.append(round(float(value),6))
                 elif (name == "lat"):
-                    wpt_lat_list.append(round(float(value),5))
+                    wpt_lat_list.append(round(float(value),6))
                 #print(name, value)
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
                     wpt_elevation_list.append(round(float(child.text),1))
+                    #child.text = str(round(float(child.text),1)-50)
                     #print("ele " + child.text)
                 elif child.tag.endswith("time"):
                     wpt_time_list.append(child.text)
@@ -92,9 +92,9 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    trk_lon_list.append(round(float(value),5))
+                    trk_lon_list.append(round(float(value),6))
                 elif (name == "lat"):
-                    trk_lat_list.append(round(float(value),5))
+                    trk_lat_list.append(round(float(value),6))
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
@@ -104,6 +104,7 @@ for elem in tree.getiterator():
 
 
 
+tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
 
 #POPULATE TRACK DISTANCE
