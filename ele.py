@@ -41,74 +41,66 @@ time_list_trk=[]
 
 #READ GPX FILE
 for elem in tree.getiterator():
-    #PARSING WPT ELEMENT
-    if elem.tag.endswith("wpt"):
-        #print('\n' + elem.tag)
-        if elem.keys():
-            for name, value in elem.items():
-                if (name == "lon"):
-                    lon_list_wpt.append(float(value))
-                if (name == "lat"):
-                    lat_list_wpt.append(float(value))
-                #print(name, value)
-        if list(elem): #elem.getchildren():
-            for child in elem:
-                if child.tag.endswith("ele"):
-                    elev_list_wpt.append(float(child.text))
-                    #print("ele " + child.text)
-                if child.tag.endswith("time"):
-                    time_list_wpt.append(child.text)
-                    #print("time " + child.text)
-                if child.tag.endswith("name"):
-                    name_list_wpt.append(child.text)
-                    #print("name " + child.text)
-
-    if elem.tag.endswith("trk"):
-        #print('\n' + elem.tag)
-        if list(elem): #elem.getchildren():
-            for child in elem:
-                if child.tag.endswith("name"):
-                    tzt_name=child.text
-                    #print("TrackName " + child.text)
-
+    #PARSING METADATA ELEMENT
     if elem.tag.endswith("metadata"):
-        #print('\n' + elem.tag)
-        if list(elem): #elem.getchildren():
+        if list(elem):
             for child in elem:
                 if child.tag.endswith("name"):
                     tzt_figure_name=child.text
-                    #print("TrackName " + child.text)
+                    #print("TrackName " + tzt_figure_name)
 
-    if elem.tag.endswith("trk"):
-        #print('\n' + elem.tag)
-        if list(elem): #elem.getchildren():
-            for child in elem:
-                if child.tag.endswith("extensions"):
-                    if list(child): #elem.getchildren():
-                        for childchild in child:
-                            if childchild.tag.endswith("TrackExtension"):
-                                if list(childchild): #elem.getchildren():
-                                    for childchildchild in childchild:
-                                        if childchildchild.tag.endswith("DisplayColor"):
-                                            tzt_color=childchildchild.text
-
-    if elem.tag.endswith("trkpt"):
-        #print('\n' + elem.tag)
+    #PARSING WPT ELEMENT
+    elif elem.tag.endswith("wpt"):
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    lon_list_trk.append(float(value))
-                if (name == "lat"):
-                    lat_list_trk.append(float(value))
+                    lon_list_wpt.append(round(float(value),5))
+                elif (name == "lat"):
+                    lat_list_wpt.append(round(float(value),5))
                 #print(name, value)
-        if list(elem): #elem.getchildren():
+        if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    elev_list_trk.append(float(child.text))
+                    elev_list_wpt.append(round(float(child.text),1))
                     #print("ele " + child.text)
-                if child.tag.endswith("time"):
-                    time_list_trk.append(child.text)
+                elif child.tag.endswith("time"):
+                    time_list_wpt.append(child.text)
                     #print("time " + child.text)
+                elif child.tag.endswith("name"):
+                    name_list_wpt.append(child.text)
+                    #print("name " + child.text)
+
+    #PARSING TRK ELEMENT
+    elif elem.tag.endswith("trk"):
+        if list(elem):
+            for child in elem:
+                if child.tag.endswith("name"):
+                    tzt_name+=child.text
+                elif child.tag.endswith("desc"):
+                    tzt_name+=" "+child.text
+                elif child.tag.endswith("extensions"):
+                    if list(child):
+                        for child1 in child:
+                            if child1.tag.endswith("TrackExtension"):
+                                if list(child1):
+                                    for child2 in child1:
+                                        if child2.tag.endswith("DisplayColor"):
+                                            tzt_color=child2.text
+
+    #PARSING TRKPT ELEMENT
+    elif elem.tag.endswith("trkpt"):
+        if elem.keys():
+            for name, value in elem.items():
+                if (name == "lon"):
+                    lon_list_trk.append(round(float(value),5))
+                elif (name == "lat"):
+                    lat_list_trk.append(round(float(value),5))
+        if list(elem):
+            for child in elem:
+                if child.tag.endswith("ele"):
+                    elev_list_trk.append(round(float(child.text),1))
+                elif child.tag.endswith("time"):
+                    time_list_trk.append(child.text)
 
 
 
