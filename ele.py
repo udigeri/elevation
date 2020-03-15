@@ -1,5 +1,6 @@
 import math
 import xml.etree.ElementTree as et
+import xml.etree.ElementTree as et1
 #import matplotlib
 #matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -21,6 +22,7 @@ def haversine(lat1,lon1,lat2,lon2,ele):
 #READ GPX FILE
 #file = (input(str("Zadaj nazov suboru:\n")))
 data=open("8674.gpx", encoding="utf-8")
+data1=open("8674.gpx", encoding="utf-8")
 
 tree = et.parse(data)
 root = tree.getroot()
@@ -61,7 +63,6 @@ for elem in tree.getiterator():
             for child in elem:
                 if child.tag.endswith("ele"):
                     wpt_elevation_list.append(round(float(child.text),1))
-                    #child.text = str(round(float(child.text),1)-50)
                     #print("ele " + child.text)
                 elif child.tag.endswith("time"):
                     wpt_time_list.append(child.text)
@@ -98,7 +99,7 @@ for elem in tree.getiterator():
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    child.text = str(round(float(child.text)+5.52,1))
+                    #child.text = str(round(float(child.text),1))
                     trk_elevation_list.append(round(float(child.text),1))
 
                 elif child.tag.endswith("time"):
@@ -110,7 +111,7 @@ tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
 
 #COMPUTE TRACK DISTANCE AND MAKE REDUCED TRACK LIST
-step=50
+step=0
 trk_distance_list=[0.0]
 trk_distance_list_reduced=[0.0]
 trk_elevation_list_reduced=[]
@@ -184,6 +185,47 @@ whole_distance=round(float(sum_distance_trk), 1)
 
 
 
+
+#ADJUST ELEVATION
+#y=k*x+z
+trk_elevation_list_adjusted=[]
+trk_shift0=26.28
+trk_shift1=5.52
+
+for trk_point in range(trk_counter):
+    trk_shift=(trk_counter-trk_point)/trk_counter*trk_shift0 + trk_shift1
+    trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
+
+
+
+
+
+#READ GPX FILE
+tree_new = et1.parse(data1)
+i=0
+for elem in tree_new.getiterator():
+    #PARSING TRKPT ELEMENT
+    if elem.tag.endswith("trkpt"):
+        if elem.keys():
+            for name, value in elem.items():
+                if (name == "lon"):
+                    trk_lon_list.append(round(float(value),6))
+                elif (name == "lat"):
+                    trk_lat_list.append(round(float(value),6))
+        if list(elem):
+            for child in elem:
+                if child.tag.endswith("ele"):
+                    child.text = str(trk_elevation_list_adjusted[i])
+                    i += 1
+
+                elif child.tag.endswith("time"):
+                    trk_time_list.append(child.text)
+
+tree_new.write("new.gpx", encoding="UTF-8", xml_declaration=True)
+
+
+
+
 #PLOT ELEVATION PROFILE
 #fig, axs =plt.subplots(1,2)
 
@@ -195,6 +237,8 @@ plt.title(tzt_name, ha="center")
 plt.plot(trk_distance_list_output,trk_elevation_list, alpha=0.3, color="black")
 #PLOT REDUCED TRACKPOITS DEPENDS ON step VALUE
 #plt.plot(trk_distance_list_reduced_output,trk_elevation_list_reduced, alpha=0.6, color="blue")
+#PLOT WHOLE TRACKPOITS ADJUSTED
+plt.plot(trk_distance_list_output,trk_elevation_list_adjusted, alpha=0.6, color="pink")
 
 #PLOT LINES FOR LEGEND
 plt.plot([0,whole_distance],[whole_min_elevation,whole_min_elevation],'-.g',label='min: '+str(round(whole_min_elevation,1))+' m', alpha=0.5)
