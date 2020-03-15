@@ -26,18 +26,18 @@ tree = et.parse(data)
 root = tree.getroot()
 tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
-lon_list_wpt=[]
-lat_list_wpt=[]
-elev_list_wpt=[]
-time_list_wpt=[]
-name_list_wpt=[]
 tzt_figure_name=""
 tzt_name=""
 tzt_color=""
-lon_list_trk=[]
-lat_list_trk=[]
-elev_list_trk=[]
-time_list_trk=[]
+wpt_lon_list=[]
+wpt_lat_list=[]
+wpt_elevation_list=[]
+wpt_time_list=[]
+wpt_name_list=[]
+trk_lon_list=[]
+trk_lat_list=[]
+trk_elevation_list=[]
+trk_time_list=[]
 
 #READ GPX FILE
 for elem in tree.getiterator():
@@ -54,20 +54,20 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    lon_list_wpt.append(round(float(value),5))
+                    wpt_lon_list.append(round(float(value),5))
                 elif (name == "lat"):
-                    lat_list_wpt.append(round(float(value),5))
+                    wpt_lat_list.append(round(float(value),5))
                 #print(name, value)
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    elev_list_wpt.append(round(float(child.text),1))
+                    wpt_elevation_list.append(round(float(child.text),1))
                     #print("ele " + child.text)
                 elif child.tag.endswith("time"):
-                    time_list_wpt.append(child.text)
+                    wpt_time_list.append(child.text)
                     #print("time " + child.text)
                 elif child.tag.endswith("name"):
-                    name_list_wpt.append(child.text)
+                    wpt_name_list.append(child.text)
                     #print("name " + child.text)
 
     #PARSING TRK ELEMENT
@@ -92,15 +92,17 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    lon_list_trk.append(round(float(value),5))
+                    trk_lon_list.append(round(float(value),5))
                 elif (name == "lat"):
-                    lat_list_trk.append(round(float(value),5))
+                    trk_lat_list.append(round(float(value),5))
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    elev_list_trk.append(round(float(child.text),1))
+                    trk_elevation_list.append(round(float(child.text),1))
                 elif child.tag.endswith("time"):
-                    time_list_trk.append(child.text)
+                    trk_time_list.append(child.text)
+
+
 
 
 
@@ -111,25 +113,25 @@ dist_list_red=[0.0]
 elev_list_red=[]
 l=0
 
-n_trk = len(elev_list_trk)
+n_trk = len(trk_elevation_list)
 for k in range(n_trk-1):
     if k<(n_trk-1):
         l=k+1
     else:
         l=k
-    d=haversine(lat_list_trk[k],lon_list_trk[k],lat_list_trk[l],lon_list_trk[l],(elev_list_trk[k]+elev_list_trk[l])/2)
+    d=haversine(trk_lat_list[k],trk_lon_list[k],trk_lat_list[l],trk_lon_list[l],(trk_elevation_list[k]+trk_elevation_list[l])/2)
     sum_dist_trk=d+dist_list[-1]
     dist_list.append(sum_dist_trk)
 
     if k==0:
-        elev_list_red.append(elev_list_trk[0])
+        elev_list_red.append(trk_elevation_list[0])
     else:
         if (sum_dist_trk-dist_list_red[-1])>step:
             dist_list_red.append(sum_dist_trk)
-            elev_list_red.append(elev_list_trk[k])
+            elev_list_red.append(trk_elevation_list[k])
 
 dist_list_red.append(sum_dist_trk)
-elev_list_red.append(elev_list_trk[k])
+elev_list_red.append(trk_elevation_list[k])
 
 #dist_list_rev=dist_list[::-1] #reverse list
 #dist_list_rev_red=dist_list_red[::-1] #reverse list
@@ -141,12 +143,12 @@ dist_list_rev_red=dist_list_red #normal list
 dist_list_wpt=sum_dist_trk
 index_list_wpt=[]
 
-n_wpt = len(elev_list_wpt)
+n_wpt = len(wpt_elevation_list)
 for w in range(n_wpt):
     dist_list_wpt=sum_dist_trk
     index_list_wpt.append(0)
     for k in range(n_trk):
-        dist_wpt_trkpt=haversine(lat_list_trk[k],lon_list_trk[k],lat_list_wpt[w],lon_list_wpt[w],(elev_list_trk[k]+elev_list_trk[w])/2)
+        dist_wpt_trkpt=haversine(trk_lat_list[k],trk_lon_list[k],wpt_lat_list[w],wpt_lon_list[w],(trk_elevation_list[k]+trk_elevation_list[w])/2)
         if dist_wpt_trkpt<dist_list_wpt:
             dist_list_wpt=dist_wpt_trkpt
             index_list_wpt[w]=k
@@ -157,9 +159,9 @@ for w in range(n_wpt):
 
 
 #BASIC STAT INFORMATION
-mean_elev=round((sum(elev_list_trk)/len(elev_list_trk)),3)
-min_elev=min(elev_list_trk)
-max_elev=max(elev_list_trk)
+mean_elev=round((sum(trk_elevation_list)/len(trk_elevation_list)),3)
+min_elev=min(trk_elevation_list)
+max_elev=max(trk_elevation_list)
 distance=round(float(sum_dist_trk), 1)
 
 
@@ -173,14 +175,14 @@ base_reg=min_elev-30#(mean_elev-min_elev)/2
 plt.figure(figsize=(16,9))
 plt.title(tzt_name,ha="center")
 
-plt.plot(dist_list_rev,elev_list_trk, alpha=0.3, color="black")
+plt.plot(dist_list_rev,trk_elevation_list, alpha=0.3, color="black")
 #plt.plot(dist_list_rev_red,elev_list_red, alpha=0.6, color="blue")
 
 plt.plot([0,distance],[min_elev,min_elev],'-.g',label='min: '+str(round(min_elev,1))+' m', alpha=0.5)
 #plt.plot([0,distance],[mean_elev,mean_elev],'-.y',label='avg: '+str(round(mean_elev,1))+' m',alpha=0.5)
 plt.plot([0,distance],[max_elev,max_elev],'-.r',label='max: '+str(round(max_elev,1))+' m',alpha=0.5)
-plt.plot([distance,distance],[base_reg,elev_list_trk[-1]],'-.c',label='dĺžka: '+str(round(distance))+' m',alpha=0.5)
-plt.fill_between(dist_list_rev,elev_list_trk,base_reg,alpha=0.1, facecolor=tzt_color)
+plt.plot([distance,distance],[base_reg,trk_elevation_list[-1]],'-.c',label='dĺžka: '+str(round(distance))+' m',alpha=0.5)
+plt.fill_between(dist_list_rev,trk_elevation_list,base_reg,alpha=0.1, facecolor=tzt_color)
 #plt.fill_between(dist_list_rev_red,elev_list_red,base_reg,alpha=0.2)
 
 y=mean_elev/20
@@ -196,19 +198,19 @@ for k in range(n_wpt):
     else:
         y=mean_elev/10
 
-    plt.plot([dist_list_rev[index_list_wpt[k]],dist_list_rev[index_list_wpt[k]]],[elev_list_wpt[k],max_elev+y],':k',alpha=0.5)
-    plt.text(dist_list_rev[index_list_wpt[k]], max_elev+y,name_list_wpt[k]+"\nvzd:"+str(round(dist_list_rev[index_list_wpt[k]]))+"\nvys:"+str(round(elev_list_wpt[k],1)),ha="center")
-    plt.plot(dist_list_rev[index_list_wpt[k]], elev_list_wpt[k],'ko',alpha=0.75)
+    plt.plot([dist_list_rev[index_list_wpt[k]],dist_list_rev[index_list_wpt[k]]],[wpt_elevation_list[k],max_elev+y],':k',alpha=0.5)
+    plt.text(dist_list_rev[index_list_wpt[k]], max_elev+y,wpt_name_list[k]+"\nvzd:"+str(round(dist_list_rev[index_list_wpt[k]]))+"\nvys:"+str(round(wpt_elevation_list[k],1)),ha="center")
+    plt.plot(dist_list_rev[index_list_wpt[k]], wpt_elevation_list[k],'ko',alpha=0.75)
     wpt_distance_list.append(dist_list_rev[index_list_wpt[k]])
 
-plt.plot(wpt_distance_list, elev_list_wpt, color="black")
+plt.plot(wpt_distance_list, wpt_elevation_list, color="black")
 
 
 
 zlomy=[]
 zlom=()
 for k in range(n_wpt):
-    zlom = (name_list_wpt[k], round(dist_list_rev[index_list_wpt[k]]), round(elev_list_wpt[k],1))
+    zlom = (wpt_name_list[k], round(dist_list_rev[index_list_wpt[k]]), round(wpt_elevation_list[k],1))
     zlomy.append(zlom)
 
 collabel=(tzt_figure_name, "Kilom. poloha (m)", "Nadm. výška (m)")
