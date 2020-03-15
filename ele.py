@@ -98,7 +98,9 @@ for elem in tree.getiterator():
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
+                    child.text = str(round(float(child.text)+5.52,1))
                     trk_elevation_list.append(round(float(child.text),1))
+
                 elif child.tag.endswith("time"):
                     trk_time_list.append(child.text)
 
@@ -107,111 +109,135 @@ for elem in tree.getiterator():
 tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
 
-#POPULATE TRACK DISTANCE
-step=500
-dist_list=[0.0]
-dist_list_red=[0.0]
-elev_list_red=[]
-l=0
+#COMPUTE TRACK DISTANCE AND MAKE REDUCED TRACK LIST
+step=50
+trk_distance_list=[0.0]
+trk_distance_list_reduced=[0.0]
+trk_elevation_list_reduced=[]
+trk_point_next=0
 
-n_trk = len(trk_elevation_list)
-for k in range(n_trk-1):
-    if k<(n_trk-1):
-        l=k+1
+trk_counter = len(trk_elevation_list)
+for trk_point in range(trk_counter-1):
+    if trk_point<(trk_counter-1):
+        trk_point_next=trk_point + 1
     else:
-        l=k
-    d=haversine(trk_lat_list[k],trk_lon_list[k],trk_lat_list[l],trk_lon_list[l],(trk_elevation_list[k]+trk_elevation_list[l])/2)
-    sum_dist_trk=d+dist_list[-1]
-    dist_list.append(sum_dist_trk)
+        trk_point_next=trk_point
 
-    if k==0:
-        elev_list_red.append(trk_elevation_list[0])
+    distance_between_points=haversine(  trk_lat_list[trk_point],
+                                        trk_lon_list[trk_point],
+                                        trk_lat_list[trk_point_next],
+                                        trk_lon_list[trk_point_next],
+                                        (trk_elevation_list[trk_point] + trk_elevation_list[trk_point_next])/2)
+
+    sum_distance_trk=trk_distance_list[-1] + distance_between_points
+    trk_distance_list.append(sum_distance_trk)
+
+    #COMPUTE REDUCED LIST
+    if trk_point==0:
+        trk_elevation_list_reduced.append(trk_elevation_list[0])
     else:
-        if (sum_dist_trk-dist_list_red[-1])>step:
-            dist_list_red.append(sum_dist_trk)
-            elev_list_red.append(trk_elevation_list[k])
+        if (sum_distance_trk-trk_distance_list_reduced[-1])>=step:
+            trk_distance_list_reduced.append(trk_distance_list[-2])
+            trk_elevation_list_reduced.append(trk_elevation_list[trk_point])
 
-dist_list_red.append(sum_dist_trk)
-elev_list_red.append(trk_elevation_list[k])
+trk_distance_list_reduced.append(sum_distance_trk)
+trk_elevation_list_reduced.append(trk_elevation_list[trk_point])
 
-#dist_list_rev=dist_list[::-1] #reverse list
-#dist_list_rev_red=dist_list_red[::-1] #reverse list
-dist_list_rev=dist_list #normal list
-dist_list_rev_red=dist_list_red #normal list
+trk_distance_list_output=trk_distance_list[::-1]                        #reverse list
+trk_distance_list_reduced_output=trk_distance_list_reduced[::-1]        #reverse list
+trk_distance_list_output=trk_distance_list                              #normal list
+trk_distance_list_reduced_output=trk_distance_list_reduced              #normal list
 
 
-#POPULATE WPT DISTANCE
-dist_list_wpt=sum_dist_trk
-index_list_wpt=[]
+#FIND SHORTEST DISTANCE BETWEEN WPT AND TRK
+shortest_distance=sum_distance_trk
+wpt_index_list=[]
 
-n_wpt = len(wpt_elevation_list)
-for w in range(n_wpt):
-    dist_list_wpt=sum_dist_trk
-    index_list_wpt.append(0)
-    for k in range(n_trk):
-        dist_wpt_trkpt=haversine(trk_lat_list[k],trk_lon_list[k],wpt_lat_list[w],wpt_lon_list[w],(trk_elevation_list[k]+trk_elevation_list[w])/2)
-        if dist_wpt_trkpt<dist_list_wpt:
-            dist_list_wpt=dist_wpt_trkpt
-            index_list_wpt[w]=k
-        if dist_wpt_trkpt==0:
+wpt_counter = len(wpt_elevation_list)
+for wpt_point in range(wpt_counter):
+    shortest_distance=sum_distance_trk
+    wpt_index_list.append(0)
+    for trk_point in range(trk_counter):
+
+        distance_between_points=haversine(  trk_lat_list[trk_point],
+                                            trk_lon_list[trk_point],
+                                            wpt_lat_list[wpt_point],
+                                            wpt_lon_list[wpt_point],
+                                            (trk_elevation_list[trk_point]+trk_elevation_list[wpt_point])/2)
+
+        if distance_between_points<shortest_distance:
+            shortest_distance=distance_between_points
+            wpt_index_list[wpt_point]=trk_point
+        if distance_between_points==0:
             break
 
 
 
+#DIAGRAM DATA COMPUTATION
+#BASIC STATISTICS INFORMATION
+whole_avg_elevation=round((sum(trk_elevation_list)/len(trk_elevation_list)),3)
+whole_min_elevation=min(trk_elevation_list)
+whole_max_elevation=max(trk_elevation_list)
+whole_distance=round(float(sum_distance_trk), 1)
 
-#BASIC STAT INFORMATION
-mean_elev=round((sum(trk_elevation_list)/len(trk_elevation_list)),3)
-min_elev=min(trk_elevation_list)
-max_elev=max(trk_elevation_list)
-distance=round(float(sum_dist_trk), 1)
+
+
 
 
 #PLOT ELEVATION PROFILE
 #fig, axs =plt.subplots(1,2)
 
-
-
-
-base_reg=min_elev-30#(mean_elev-min_elev)/2
+base_reg=whole_min_elevation-20#(whole_avg_elevation-whole_min_elevation)/2
 plt.figure(figsize=(16,9))
-plt.title(tzt_name,ha="center")
+plt.title(tzt_name, ha="center")
 
-plt.plot(dist_list_rev,trk_elevation_list, alpha=0.3, color="black")
-#plt.plot(dist_list_rev_red,elev_list_red, alpha=0.6, color="blue")
+#PLOT WHOLE TRACKPOITS
+plt.plot(trk_distance_list_output,trk_elevation_list, alpha=0.3, color="black")
+#PLOT REDUCED TRACKPOITS DEPENDS ON step VALUE
+#plt.plot(trk_distance_list_reduced_output,trk_elevation_list_reduced, alpha=0.6, color="blue")
 
-plt.plot([0,distance],[min_elev,min_elev],'-.g',label='min: '+str(round(min_elev,1))+' m', alpha=0.5)
-#plt.plot([0,distance],[mean_elev,mean_elev],'-.y',label='avg: '+str(round(mean_elev,1))+' m',alpha=0.5)
-plt.plot([0,distance],[max_elev,max_elev],'-.r',label='max: '+str(round(max_elev,1))+' m',alpha=0.5)
-plt.plot([distance,distance],[base_reg,trk_elevation_list[-1]],'-.c',label='dĺžka: '+str(round(distance))+' m',alpha=0.5)
-plt.fill_between(dist_list_rev,trk_elevation_list,base_reg,alpha=0.1, facecolor=tzt_color)
-#plt.fill_between(dist_list_rev_red,elev_list_red,base_reg,alpha=0.2)
+#PLOT LINES FOR LEGEND
+plt.plot([0,whole_distance],[whole_min_elevation,whole_min_elevation],'-.g',label='min: '+str(round(whole_min_elevation,1))+' m', alpha=0.5)
+#plt.plot([0,whole_distance],[whole_avg_elevation,whole_avg_elevation],'-.y',label='avg: '+str(round(whole_avg_elevation,1))+' m',alpha=0.5)
+plt.plot([0,whole_distance],[whole_max_elevation,whole_max_elevation],'-.r',label='max: '+str(round(whole_max_elevation,1))+' m',alpha=0.5)
+plt.plot([whole_distance,whole_distance],[base_reg,trk_elevation_list[-1]],'-.c',label='dĺžka: '+str(round(whole_distance))+' m',alpha=0.5)
 
-y=mean_elev/20
+#FILL TZT COLOR FROM ELEVATION TO BASEREG
+plt.fill_between(trk_distance_list_output,trk_elevation_list,base_reg, alpha=0.2, facecolor=tzt_color)
+#FILL TZT COLOR FROM ELEVATION TO BASEREG REDUCED
+# #plt.fill_between(trk_distance_list_reduced_output,trk_elevation_list_reduced,base_reg,alpha=0.2, facecolor=tzt_color)
+
+
+shift=whole_avg_elevation/20
+y=shift
 
 wpt_distance_list=[]
+for wpt_point in range(wpt_counter):
 
-for k in range(n_wpt):
-
-    if y>mean_elev/20:
-        y=mean_elev/20
-    elif 0 < y <=mean_elev/20:
+    if y>shift:
+        y=shift
+    elif 0 < y <=shift:
         y=0
     else:
-        y=mean_elev/10
+        y=shift/2
 
-    plt.plot([dist_list_rev[index_list_wpt[k]],dist_list_rev[index_list_wpt[k]]],[wpt_elevation_list[k],max_elev+y],':k',alpha=0.5)
-    plt.text(dist_list_rev[index_list_wpt[k]], max_elev+y,wpt_name_list[k]+"\nvzd:"+str(round(dist_list_rev[index_list_wpt[k]]))+"\nvys:"+str(round(wpt_elevation_list[k],1)),ha="center")
-    plt.plot(dist_list_rev[index_list_wpt[k]], wpt_elevation_list[k],'ko',alpha=0.75)
-    wpt_distance_list.append(dist_list_rev[index_list_wpt[k]])
+    #PLOT VERTICAL LINE TO WPT
+    plt.plot([trk_distance_list_output[wpt_index_list[wpt_point]],trk_distance_list_output[wpt_index_list[wpt_point]]],[wpt_elevation_list[wpt_point],whole_max_elevation+y],':k',alpha=0.5)
+    #PLOT NAME OF WPT
+    plt.text(trk_distance_list_output[wpt_index_list[wpt_point]], whole_max_elevation+y,wpt_name_list[wpt_point]+"\n"+str(round(trk_distance_list_output[wpt_index_list[wpt_point]]))+"\n"+str(round(wpt_elevation_list[wpt_point],1)),ha="center")
+    #PLOT BALL FOR WPT
+    plt.plot(trk_distance_list_output[wpt_index_list[wpt_point]], wpt_elevation_list[wpt_point],'ko',alpha=0.75)
 
+    wpt_distance_list.append(trk_distance_list_output[wpt_index_list[wpt_point]])
+#PLOT LINES BETWEEN WPT zlomy
 plt.plot(wpt_distance_list, wpt_elevation_list, color="black")
 
 
 
 zlomy=[]
 zlom=()
-for k in range(n_wpt):
-    zlom = (wpt_name_list[k], round(dist_list_rev[index_list_wpt[k]]), round(wpt_elevation_list[k],1))
+for wpt_point in range(wpt_counter):
+    zlom = (wpt_name_list[wpt_point], round(trk_distance_list_output[wpt_index_list[wpt_point]]), round(wpt_elevation_list[wpt_point],1))
     zlomy.append(zlom)
 
 collabel=(tzt_figure_name, "Kilom. poloha (m)", "Nadm. výška (m)")
