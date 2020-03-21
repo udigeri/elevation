@@ -20,9 +20,11 @@ def haversine(lat1,lon1,lat2,lon2,ele):
 
 
 #READ GPX FILE
-#file = (input(str("Zadaj nazov suboru:\n")))
-data=open("8674.gpx", encoding="utf-8")
-data1=open("8674.gpx", encoding="utf-8")
+file = (input(str("Zadaj nazov suboru:\n")))
+file = "8674.gpx"
+data=open(file, encoding="utf-8")
+trk_shift0=0.0
+trk_shift1=0.0
 
 tree = et.parse(data)
 root = tree.getroot()
@@ -55,14 +57,17 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    wpt_lon_list.append(round(float(value),6))
+                    value = round(float(value),6)
+                    wpt_lon_list.append(value)
                 elif (name == "lat"):
-                    wpt_lat_list.append(round(float(value),6))
+                    value = round(float(value),6)
+                    wpt_lat_list.append(value)
                 #print(name, value)
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    wpt_elevation_list.append(round(float(child.text),1))
+                    child.text = str(round(float(child.text),1))
+                    wpt_elevation_list.append(float(child.text))
                     #print("ele " + child.text)
                 elif child.tag.endswith("time"):
                     wpt_time_list.append(child.text)
@@ -93,15 +98,16 @@ for elem in tree.getiterator():
         if elem.keys():
             for name, value in elem.items():
                 if (name == "lon"):
-                    trk_lon_list.append(round(float(value),6))
+                    value = round(float(value),6)
+                    trk_lon_list.append(value)
                 elif (name == "lat"):
-                    trk_lat_list.append(round(float(value),6))
+                    value = round(float(value),6)
+                    trk_lat_list.append(value)
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    #child.text = str(round(float(child.text),1))
-                    trk_elevation_list.append(round(float(child.text),1))
-
+                    child.text = str(round(float(child.text),1))
+                    trk_elevation_list.append(float(child.text))
                 elif child.tag.endswith("time"):
                     trk_time_list.append(child.text)
 
@@ -111,10 +117,11 @@ tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
 
 
 #COMPUTE TRACK DISTANCE AND MAKE REDUCED TRACK LIST
-step=0
+step=100
 trk_distance_list=[0.0]
 trk_distance_list_reduced=[0.0]
 trk_elevation_list_reduced=[]
+trk_time_list_reduced=[]
 trk_point_next=0
 
 trk_counter = len(trk_elevation_list)
@@ -136,13 +143,16 @@ for trk_point in range(trk_counter-1):
     #COMPUTE REDUCED LIST
     if trk_point==0:
         trk_elevation_list_reduced.append(trk_elevation_list[0])
+        trk_time_list_reduced.append(trk_time_list[0])
     else:
         if (sum_distance_trk-trk_distance_list_reduced[-1])>=step:
             trk_distance_list_reduced.append(trk_distance_list[-2])
             trk_elevation_list_reduced.append(trk_elevation_list[trk_point])
+            trk_time_list_reduced.append(trk_time_list[trk_point])
 
 trk_distance_list_reduced.append(sum_distance_trk)
 trk_elevation_list_reduced.append(trk_elevation_list[trk_point])
+trk_time_list_reduced.append(trk_time_list[trk_point])
 
 trk_distance_list_output=trk_distance_list[::-1]                        #reverse list
 trk_distance_list_reduced_output=trk_distance_list_reduced[::-1]        #reverse list
@@ -189,19 +199,24 @@ whole_distance=round(float(sum_distance_trk), 1)
 #ADJUST ELEVATION
 #y=k*x+z
 trk_elevation_list_adjusted=[]
-trk_shift0=26.28
-trk_shift1=5.52
 
-for trk_point in range(trk_counter):
-    trk_shift=(trk_counter-trk_point)/trk_counter*trk_shift0 + trk_shift1
-    trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
+if trk_shift0>trk_shift1:
+    for trk_point in range(trk_counter):
+        trk_shift=(trk_counter-trk_point)/trk_counter*trk_shift0 + trk_shift1
+        trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
+else:
+    for trk_point in range(trk_counter):
+        trk_shift=(trk_point)/trk_counter*trk_shift1 + trk_shift0
+        trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
 
 
 
 
 
 #READ GPX FILE
-tree_new = et1.parse(data1)
+data.close()
+data=open(file, encoding="utf-8")
+tree_new = et1.parse(data)
 i=0
 for elem in tree_new.getiterator():
     #PARSING TRKPT ELEMENT
@@ -221,7 +236,7 @@ for elem in tree_new.getiterator():
                 elif child.tag.endswith("time"):
                     trk_time_list.append(child.text)
 
-tree_new.write("new.gpx", encoding="UTF-8", xml_declaration=True)
+tree_new.write(tzt_figure_name+"_shifted.gpx", encoding="UTF-8", xml_declaration=True)
 
 
 
@@ -230,13 +245,14 @@ tree_new.write("new.gpx", encoding="UTF-8", xml_declaration=True)
 #fig, axs =plt.subplots(1,2)
 
 base_reg=whole_min_elevation-20#(whole_avg_elevation-whole_min_elevation)/2
-plt.figure(figsize=(16,9))
+plt.figure(figsize=(16,10))
 plt.title(tzt_name, ha="center")
 
 #PLOT WHOLE TRACKPOITS
 plt.plot(trk_distance_list_output,trk_elevation_list, alpha=0.3, color="black")
 #PLOT REDUCED TRACKPOITS DEPENDS ON step VALUE
-#plt.plot(trk_distance_list_reduced_output,trk_elevation_list_reduced, alpha=0.6, color="blue")
+plt.plot(trk_distance_list_reduced_output,trk_elevation_list_reduced, alpha=0.6, color="blue")
+#plt.plot(trk_time_list_reduced, trk_elevation_list_reduced, alpha=0.6, color="green")
 #PLOT WHOLE TRACKPOITS ADJUSTED
 plt.plot(trk_distance_list_output,trk_elevation_list_adjusted, alpha=0.6, color="pink")
 
