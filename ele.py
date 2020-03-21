@@ -112,7 +112,7 @@ for elem in tree.getiterator():
 
 
 
-tree.write("test.xml", encoding="UTF-8", xml_declaration=True)
+tree.write(data.name+"_adjusted.gpx", encoding="UTF-8", xml_declaration=True)
 
 
 #COMPUTE TRACK DISTANCE AND MAKE REDUCED TRACK LIST
