@@ -21,7 +21,6 @@ def haversine(lat1,lon1,lat2,lon2,ele):
 
 #READ GPX FILE
 file = (input(str("Zadaj nazov suboru:\n")))
-file = "8674.gpx"
 data=open(file, encoding="utf-8")
 trk_shift0=0.0
 trk_shift1=0.0
@@ -236,7 +235,7 @@ for elem in tree_new.getiterator():
                 elif child.tag.endswith("time"):
                     trk_time_list.append(child.text)
 
-tree_new.write(tzt_figure_name+"_shifted.gpx", encoding="UTF-8", xml_declaration=True)
+tree_new.write(data.name+"_shifted.gpx", encoding="UTF-8", xml_declaration=True)
 
 
 
