@@ -197,16 +197,16 @@ whole_distance=round(float(sum_distance_trk), 1)
 
 #ADJUST ELEVATION
 #y=k*x+z
-trk_elevation_list_adjusted=[]
+trk_elevation_list_shifted=[]
 
 if trk_shift0>trk_shift1:
     for trk_point in range(trk_counter):
         trk_shift=(trk_counter-trk_point)/trk_counter*trk_shift0 + trk_shift1
-        trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
+        trk_elevation_list_shifted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
 else:
     for trk_point in range(trk_counter):
         trk_shift=(trk_point)/trk_counter*trk_shift1 + trk_shift0
-        trk_elevation_list_adjusted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
+        trk_elevation_list_shifted.append(round(trk_elevation_list[trk_point] + trk_shift,1))
 
 
 
@@ -229,7 +229,7 @@ for elem in tree_new.getiterator():
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
-                    child.text = str(trk_elevation_list_adjusted[i])
+                    child.text = str(trk_elevation_list_shifted[i])
                     i += 1
 
                 elif child.tag.endswith("time"):
@@ -253,7 +253,7 @@ plt.plot(trk_distance_list_output,trk_elevation_list, alpha=0.3, color="black")
 plt.plot(trk_distance_list_reduced_output,trk_elevation_list_reduced, alpha=0.6, color="blue")
 #plt.plot(trk_time_list_reduced, trk_elevation_list_reduced, alpha=0.6, color="green")
 #PLOT WHOLE TRACKPOITS ADJUSTED
-plt.plot(trk_distance_list_output,trk_elevation_list_adjusted, alpha=0.6, color="pink")
+plt.plot(trk_distance_list_output,trk_elevation_list_shifted, alpha=0.6, color="pink")
 
 #PLOT LINES FOR LEGEND
 plt.plot([0,whole_distance],[whole_min_elevation,whole_min_elevation],'-.g',label='min: '+str(round(whole_min_elevation,1))+' m', alpha=0.5)
