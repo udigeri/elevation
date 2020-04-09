@@ -267,15 +267,23 @@ for wpt_point in range(wpt_counter):
         if distance_between_points < shortest_distance:
             shortest_distance = distance_between_points
             wpt_index_list[wpt_point] = trk_point
-            wptlist[wpt_point][distanceAB] = trklist[trk_point][distanceAB]
-            wptlist[wpt_point][distanceBA] = trklist[trk_point][distanceBA]
+            if reverse:
+                wptlist[wpt_point][distanceAB] = trklist[trk_point][distanceBA]
+                wptlist[wpt_point][distanceBA] = trklist[trk_point][distanceAB]
+            else:
+                wptlist[wpt_point][distanceAB] = trklist[trk_point][distanceAB]
+                wptlist[wpt_point][distanceBA] = trklist[trk_point][distanceBA]
         if distance_between_points == 0:
             break
 
-#CALCULATE TIME FROM A TO B
+
+if reverse:
+    wptlist.reverse()
+
+#CALCULATE TIME FROM A TO B (↓)
 wpt_counter = len(wptlist)
 for wpt_point in range(1, wpt_counter):
-    dst = wptlist[wpt_point][distanceAB]-wptlist[wpt_point-1][distanceAB]
+    dst = abs(wptlist[wpt_point][distanceAB]-wptlist[wpt_point-1][distanceAB])
     dst /= 1000
     ele = wptlist[wpt_point][elevation]-wptlist[wpt_point-1][elevation]
     if dst == 0:
@@ -283,9 +291,19 @@ for wpt_point in range(1, wpt_counter):
     else:
         wptlist[wpt_point][minAB] = round(14*dst + 0.028*ele + 0.00036*pow(ele, 2)/dst, 2)
 
-#CALCULATE TIME FROM B TO A
+total_timeAB = 0.0
+for wpt_point in range(0, wpt_counter):
+    total_timeAB += wptlist[wpt_point][minAB]
+    wptlist[wpt_point].append(round(total_timeAB, 2))
+
+
+
+
+
+
+#CALCULATE TIME FROM B TO A (↑)
 for wpt_point in range(wpt_counter-1, 0, -1):
-    dst = wptlist[wpt_point][distanceAB]-wptlist[wpt_point-1][distanceAB]
+    dst = abs(wptlist[wpt_point][distanceAB]-wptlist[wpt_point-1][distanceAB])
     dst /= 1000
     ele = wptlist[wpt_point-1][elevation]-wptlist[wpt_point][elevation]
     if dst == 0:
@@ -293,9 +311,65 @@ for wpt_point in range(wpt_counter-1, 0, -1):
     else:
         wptlist[wpt_point-1][minBA] = round(14*dst + 0.028*ele + 0.00036*pow(ele, 2)/dst, 2)
 
+total_timeBA = 0.0
+for wpt_point in range(wpt_counter, 0, -1):
+    total_timeBA += wptlist[wpt_point-1][minBA]
+    wptlist[wpt_point-1].append(round(total_timeBA, 2))
+
+
+
+for wpt_point in range(wpt_counter):
+    wptlist[wpt_point].append(0.00)
+    wptlist[wpt_point].append(0.00)
+
+
+
+indexA=0
+indexB=0
+for wpt_point in range(0, wpt_counter):
+    if wptlist[wpt_point][desc].lower() != "zlom":
+        if indexA == indexB == wpt_point:
+            indexA = wpt_point
+            wptlist[indexA][11] = round((wptlist[indexB][minAB+2] - wptlist[indexA][11]), 2)
+        else:
+            indexB = wpt_point
+            wptlist[indexA][11] = round((wptlist[indexB][minAB+2] - wptlist[indexA][9]), 2)
+            indexA = indexB
+
+
 
 
 print("{}\n".format(wptlist), end='\n')
+width = 16
+print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
+print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
+print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
+for wpt_point in range(wpt_counter):
+    if wptlist[wpt_point][desc].lower() == "zlom":
+        print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
+            round(wptlist[wpt_point][elevation]),
+            round(wptlist[wpt_point][distanceAB]/1000,2),
+            wptlist[wpt_point][minAB], 
+            wptlist[wpt_point][minBA], 
+            "↓", 
+            "↑", 
+            "↓", 
+            "↑", 
+            end='|',wid2=2*width,wid=width))
+    else:
+        print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
+            round(wptlist[wpt_point][elevation]),
+            round(wptlist[wpt_point][distanceAB]/1000,2),
+            wptlist[wpt_point][minAB], 
+            wptlist[wpt_point][minBA], 
+            wptlist[wpt_point][minAB+2], 
+            wptlist[wpt_point][minBA+2], 
+            wptlist[wpt_point][minAB+4], 
+            wptlist[wpt_point][minBA+4],
+            end='|',wid2=2*width,wid=width))
+print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
+
+
 # print(trklist)
 
 #DIAGRAM DATA COMPUTATION
@@ -346,6 +420,10 @@ for elem in tree_new.iter():
                     i += 1
 
 tree_new.write(data.name+"_shifted.gpx", encoding="UTF-8", xml_declaration=True)
+
+
+
+
 
 
 
