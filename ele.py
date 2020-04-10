@@ -338,6 +338,18 @@ for wpt_point in range(0, wpt_counter):
 
 
 
+indexA=wpt_counter-1
+indexB=wpt_counter-1
+for wpt_point in range(wpt_counter, 0, -1):
+    if wptlist[wpt_point-1][desc].lower() != "zlom":
+        if indexB == indexA == wpt_point-1:
+            indexB = wpt_point-1
+            wptlist[indexB][12] = round((wptlist[indexA][minBA+2] - wptlist[indexB][12]), 2)
+        else:
+            indexA = wpt_point-1
+            wptlist[indexB][12] = round((wptlist[indexA][minBA+2] - wptlist[indexB][10]), 2)
+            indexB = indexA
+
 
 print("{}\n".format(wptlist), end='\n')
 width = 16
