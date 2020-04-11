@@ -96,6 +96,9 @@ for elem in root.iter():
                     wpt[time] = child.text
                 elif child.tag.endswith("name"):
                     wpt[desc] = child.text
+                elif child.tag.endswith("dst"):
+                    child.text = str(round(float(child.text)))
+                    wpt[distanceAB] = float(child.text)
 
     #PARSING TRK ELEMENT
     elif elem.tag.endswith("trk"):
@@ -247,6 +250,22 @@ trklistBA_reduced.append(trklist[0])
 
 
 
+#FIND WPT ACCORDING DISTANCE IN TRACK
+for wpt_point in range(len(wptlist)):
+    minSubstract = sum_distance
+    index = 0
+    if (wptlist[wpt_point][distanceAB]):
+        for trk_point in range(trk_counter):
+            if (abs(wptlist[wpt_point][distanceAB] - trk_distance_list[trk_point]) <= minSubstract):
+                index = trk_point
+                minSubstract = abs(wptlist[wpt_point][distanceAB] - trk_distance_list[trk_point])
+        wpt_name = wptlist[wpt_point][desc]
+        wptlist[wpt_point] = trklist[index]
+        wptlist[wpt_point][desc] = wpt_name
+        wptlist[wpt_point].append(0.0)
+        wptlist[wpt_point].append(0.0)
+        wpt_elevation_list[wpt_point] = wptlist[wpt_point][elevation]
+
 
 
 #FIND SHORTEST DISTANCE BETWEEN WPT AND TRK
@@ -361,7 +380,8 @@ orig_stdout = sys.stdout
 sys.stdout = wpt_file
 
 for i in range(2):
-
+    for wpt_point in range(wpt_counter):
+        print(wptlist[wpt_point], end="\n")
     width = 16
     print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
     print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
