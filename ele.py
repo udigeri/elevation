@@ -1,3 +1,4 @@
+import sys
 import math
 import xml.etree.ElementTree as et
 from statistics import mean
@@ -25,7 +26,7 @@ file = (input(str("Zadaj nazov suboru:\n")))
 data=open(file, encoding="utf-8")
 trk_shift0=0.0
 trk_shift1=0.0
-step=100
+step=15
 reverse=0
 
 tree = et.parse(data)
@@ -352,37 +353,47 @@ for wpt_point in range(wpt_counter, 0, -1):
 
 
 print("{}\n".format(wptlist), end='\n')
-width = 16
-print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
-print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
-print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
-for wpt_point in range(wpt_counter):
-    if wptlist[wpt_point][desc].lower() == "zlom":
-        print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
-            round(wptlist[wpt_point][elevation]),
-            round(wptlist[wpt_point][distanceAB]/1000,2),
-            wptlist[wpt_point][minAB], 
-            wptlist[wpt_point][minBA], 
-            "↓", 
-            "↑", 
-            "↓", 
-            "↑", 
-            end='|',wid2=2*width,wid=width))
-    else:
-        print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
-            round(wptlist[wpt_point][elevation]),
-            round(wptlist[wpt_point][distanceAB]/1000,2),
-            wptlist[wpt_point][minAB], 
-            wptlist[wpt_point][minBA], 
-            wptlist[wpt_point][minAB+2], 
-            wptlist[wpt_point][minBA+2], 
-            wptlist[wpt_point][minAB+4], 
-            wptlist[wpt_point][minBA+4],
-            end='|',wid2=2*width,wid=width))
-print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
-
-
 # print(trklist)
+
+#STORE WAYPOINT LIST TO FILE
+wpt_file = open(data.name+"_wpt.txt", "w", encoding="UTF-8")
+orig_stdout = sys.stdout
+sys.stdout = wpt_file
+
+for i in range(2):
+
+    width = 16
+    print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
+    print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
+    print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
+    for wpt_point in range(wpt_counter):
+        if wptlist[wpt_point][desc].lower() == "zlom":
+            print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
+                round(wptlist[wpt_point][elevation]),
+                round(wptlist[wpt_point][distanceAB]/1000,2),
+                wptlist[wpt_point][minAB], 
+                wptlist[wpt_point][minBA], 
+                "↓", 
+                "↑", 
+                "↓", 
+                "↑", 
+                end='|',wid2=2*width,wid=width))
+        else:
+            print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
+                round(wptlist[wpt_point][elevation]),
+                round(wptlist[wpt_point][distanceAB]/1000,2),
+                wptlist[wpt_point][minAB], 
+                wptlist[wpt_point][minBA], 
+                wptlist[wpt_point][minAB+2], 
+                wptlist[wpt_point][minBA+2], 
+                wptlist[wpt_point][minAB+4], 
+                wptlist[wpt_point][minBA+4],
+                end='|',wid2=2*width,wid=width))
+    print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
+    if i==0:
+        sys.stdout = orig_stdout
+        wpt_file.close()
+
 
 #DIAGRAM DATA COMPUTATION
 #BASIC STATISTICS INFORMATION
