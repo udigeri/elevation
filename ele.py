@@ -12,12 +12,12 @@ def help():
     h="""
     help - Tento skript spracuje .gpx subor pre potreby vytvorenia/najdenia/pridania zlomov.
     OPTIONS parametre
-    --h - vypisanie napovedy napr. (--h)
-    --i filename.extension - vstupny subor napr.(--i 8674.gpx)
-    --r reverse - vykresli .gpx subor v opacnom poradi napr. (--r)
-    --s hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (--s 15)
-    --shiftA hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (--shiftA 26.28)
-    --shiftB hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (--shiftA -5.52)
+    -h(help) - vypisanie napovedy napr. (-h)
+    -i(input) filename.extension - vstupny subor napr.(-i 8674.gpx)
+    -r(reverse) - vykresli .gpx subor v opacnom poradi napr. (-r)
+    -s(step) hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (-s 15)
+    -shiftA(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftA 26.28)
+    -shiftB(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftB -5.52)
     """
     print (h)
     return 0
@@ -40,30 +40,28 @@ step=0
 trk_shift0=0.0
 trk_shift1=0.0
 
-# total arguments 
-n = len(sys.argv) 
-print("Total arguments passed:", n) 
-print("\nArguments passed:", end = " ") 
-for i in range(1, n): 
-    print(sys.argv[i], end = " ")
-    if sys.argv[i] == "--h":
+
+help()
+# PROCESS ARGUMENTS
+for i in range(1, len(sys.argv)): 
+    if sys.argv[i] == "-h":
         help()
         sys.exit(0)
-    elif sys.argv[i] == "--i":
+    elif sys.argv[i] == "-i":
         file = sys.argv[i+1]
-    elif sys.argv[i] == "--r":
+    elif sys.argv[i] == "-r":
         reverse = 1
-    elif sys.argv[i] == "--s":
+    elif sys.argv[i] == "-s":
         step=float(sys.argv[i+1])
-    elif sys.argv[i] == "--shiftA":
+    elif sys.argv[i] == "-shiftA":
         trk_shift0=float(sys.argv[i+1])
-    elif sys.argv[i] == "--shiftB":
+    elif sys.argv[i] == "-shiftB":
         trk_shift1=float(sys.argv[i+1])
 
 
 #READ GPX FILE
 if len(file) == 0:
-    file = (input(str("Zadaj nazov suboru:\n")))
+    file = (input(str("Zadaj nazov suboru(napr. 8764.gpx):\n")))
 data=open(file, encoding="utf-8")
 
 
@@ -419,8 +417,14 @@ orig_stdout = sys.stdout
 sys.stdout = wpt_file
 
 for i in range(2):
+    help()
+    for j in range(0, len(sys.argv)): 
+        print(sys.argv[j], end = " ")
+
+    print("\n", end="\n")
     for wpt_point in range(wpt_counter):
         print(wptlist[wpt_point], end="\n")
+
     width = 16
     print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
     print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
