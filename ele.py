@@ -7,6 +7,21 @@ from statistics import mean
 import matplotlib.pyplot as plt
 
 
+#HELP
+def help():
+    h="""
+    help - Tento skript spracuje .gpx subor pre potreby vytvorenia/najdenia/pridania zlomov.
+    OPTIONS parametre
+    --h - vypisanie napovedy napr. (--h)
+    --i filename.extension - vstupny subor napr.(--i 8674.gpx)
+    --r reverse - vykresli .gpx subor v opacnom poradi napr. (--r)
+    --s hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (--s 15)
+    --shiftA hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (--shiftA 26.28)
+    --shiftB hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (--shiftA -5.52)
+    """
+    print (h)
+    return 0
+
 #HAVERSINE FUNCTION
 def haversine(lat1,lon1,lat2,lon2,ele):
     lat1_rad=math.radians(lat1)
@@ -19,15 +34,39 @@ def haversine(lat1,lon1,lat2,lon2,ele):
     d=2*(6359000+ele)*math.asin(a)
     return d
 
-
-#READ GPX FILE
-
-file = (input(str("Zadaj nazov suboru:\n")))
-data=open(file, encoding="utf-8")
+file=""
+reverse=0
+step=0
 trk_shift0=0.0
 trk_shift1=0.0
-step=15
-reverse=0
+
+# total arguments 
+n = len(sys.argv) 
+print("Total arguments passed:", n) 
+print("\nArguments passed:", end = " ") 
+for i in range(1, n): 
+    print(sys.argv[i], end = " ")
+    if sys.argv[i] == "--h":
+        help()
+        sys.exit(0)
+    elif sys.argv[i] == "--i":
+        file = sys.argv[i+1]
+    elif sys.argv[i] == "--r":
+        reverse = 1
+    elif sys.argv[i] == "--s":
+        step=float(sys.argv[i+1])
+    elif sys.argv[i] == "--shiftA":
+        trk_shift0=float(sys.argv[i+1])
+    elif sys.argv[i] == "--shiftB":
+        trk_shift1=float(sys.argv[i+1])
+
+
+#READ GPX FILE
+if len(file) == 0:
+    file = (input(str("Zadaj nazov suboru:\n")))
+data=open(file, encoding="utf-8")
+
+
 
 tree = et.parse(data)
 root = tree.getroot()
@@ -570,9 +609,9 @@ plt.fill_between(trk_distance_list_reduced_output,
 
 
 
-print("normal_list:", len(trklist))
-print("reduced_list (each {:.1f} m): {:d}".format(step, len(trklistAB_reduced)))
-print("wpt_list:", len(wptlist))
+print("normal file:", len(trklist))
+print("reduced file (each {:.1f} m): {:d}".format(step, len(trklistAB_reduced)))
+print("wpt file:", len(wptlist))
 
 
 
