@@ -10,15 +10,16 @@ import matplotlib.pyplot as plt
 #HELP
 def help():
     h="""
-    help - Tento skript spracuje .gpx subor pre potreby vytvorenia/najdenia/pridania zlomov.
-    OPTIONS parametre
-    -h(help) - vypisanie napovedy napr. (-h)
-    -i(input) filename.extension - vstupny subor napr.(-i 8674.gpx)
-    -r(reverse) - vykresli .gpx subor v opacnom poradi napr. (-r)
-    -s(step) hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (-s 15)
-    -shiftA(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftA 26.28)
-    -shiftB(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftB -5.52)
-    """
+ELE.PY Ver.:1.0.0.@0
+Tento skript spracuje .gpx subor pre potreby vytvorenia/najdenia/pridania zlomov.
+OPTIONS parametre
+-h(help) - vypisanie napovedy napr. (-h)
+-i(input) filename.extension - vstupny subor napr.(-i 8674.gpx)
+-r(reverse) - vykresli .gpx subor v opacnom poradi napr. (-r)
+-s(step) hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (-s 15)
+-shiftA(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftA 26.28)
+-shiftB(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftB -5.52)
+"""
     print (h)
     return 0
 
@@ -61,7 +62,7 @@ for i in range(1, len(sys.argv)):
 
 #READ GPX FILE
 if len(file) == 0:
-    file = (input(str("Zadaj nazov suboru(napr. 8764.gpx):\n")))
+    file = (input(str("Zadaj nazov suboru(napr. 2744.gpx):\n")))
 data=open(file, encoding="utf-8")
 
 
@@ -251,7 +252,36 @@ for trk_point in range(trk_counter-1):
 trklistAB_reduced.append(trklist[-1])
 trk_distance_list_reduced.append(sum_distance)
 
+#READ GPX FILE
+data=open(file, encoding="utf-8")
+tree_new = et.parse(data)
+i=0
+for elem in tree_new.iter():
 
+    #PARSING TRKPT ELEMENT
+    if elem.tag.endswith("trkpt"):
+        if i >= len(trklistAB_reduced):
+            elem.clear()
+            continue
+        else:
+            if elem.keys():
+                for name, value in elem.items():
+                    if (name == "lon"):
+                        elem.set("lon", str(trklistAB_reduced[i][longitude]))
+                    elif (name == "lat"):
+                        elem.set("lat", str(trklistAB_reduced[i][latitude]))
+            if list(elem):
+                for child in elem:
+                    if child.tag.endswith("ele"):
+                        child.text = str(trklistAB_reduced[i][elevation])
+                    elif child.tag.endswith("time"):
+                        child.text = str(trklistAB_reduced[i][time])
+                    elif child.tag.endswith("name"):
+                        child.text = str(trklistAB_reduced[i][desc])
+                i += 1
+
+tree_new.write(data.name+"_reduced.gpx", encoding="UTF-8", xml_declaration=True, default_namespace=None)
+data.close()
 
 
 
@@ -408,6 +438,18 @@ for wpt_point in range(wpt_counter, 0, -1):
             indexB = indexA
 
 
+#BASIC STATISTICS INFORMATION
+trk_elevation_list=[]
+for trk_point in range(trk_counter):
+    trk_elevation_list.append(trklist[trk_point][elevation])
+
+whole_avg_elevation=round(mean(trk_elevation_list),1)#round(sum(trk_elevation_list)/len(trk_elevation_list))
+whole_min_elevation=round(min(trk_elevation_list),1)
+whole_max_elevation=round(max(trk_elevation_list),1)
+whole_distance=round(float(sum_distance))
+
+
+
 print("{}\n".format(wptlist), end='\n')
 # print(trklist)
 
@@ -420,6 +462,18 @@ for i in range(2):
     help()
     for j in range(0, len(sys.argv)): 
         print(sys.argv[j], end = " ")
+    if len(sys.argv) == 1:
+        print(file)
+    print("\n", end="\n")
+
+    print("Statistika trasy:", file, end="\n")
+    print("min. nadm. vyska: {:.1f} m".format(whole_min_elevation))
+    print("max. nadm. vyska: {:.1f} m".format(whole_max_elevation))
+    print("dlzka trasy: {:.0f} m".format(whole_distance))
+    print("\n")
+    print("normal subor: {:d} bodov".format(len(trklist)))
+    print("reduced subor (each {:.1f} m): {:d}".format(step, len(trklistAB_reduced)))
+    print("wpt subor: {:d} bodov".format(len(wptlist)))
 
     print("\n", end="\n")
     for wpt_point in range(wpt_counter):
@@ -456,18 +510,9 @@ for i in range(2):
     if i==0:
         sys.stdout = orig_stdout
         wpt_file.close()
-
+data.close()
 
 #DIAGRAM DATA COMPUTATION
-#BASIC STATISTICS INFORMATION
-trk_elevation_list=[]
-for trk_point in range(trk_counter):
-    trk_elevation_list.append(trklist[trk_point][elevation])
-
-whole_avg_elevation=round(mean(trk_elevation_list),1)#round(sum(trk_elevation_list)/len(trk_elevation_list))
-whole_min_elevation=round(min(trk_elevation_list),1)
-whole_max_elevation=round(max(trk_elevation_list),1)
-whole_distance=round(float(sum_distance))
 
 
 
@@ -492,7 +537,6 @@ else:
 
 
 #READ GPX FILE
-data.close()
 data=open(file, encoding="utf-8")
 tree_new = et.parse(data)
 i=0
@@ -506,7 +550,7 @@ for elem in tree_new.iter():
                     i += 1
 
 tree_new.write(data.name+"_shifted.gpx", encoding="UTF-8", xml_declaration=True)
-
+data.close()
 
 
 
@@ -556,7 +600,7 @@ else:
 #fig, axs =plt.subplots(1,2)
 
 base_reg=whole_min_elevation-20#(whole_avg_elevation-whole_min_elevation)/2
-plt.figure(figsize=(16,10))
+plt.figure(figsize=(19.2,10.8))
 plt.title(tzt_name, ha="center")
 
 #PLOT WHOLE TRACKPOITS
@@ -613,9 +657,6 @@ plt.fill_between(trk_distance_list_reduced_output,
 
 
 
-print("normal file:", len(trklist))
-print("reduced file (each {:.1f} m): {:d}".format(step, len(trklistAB_reduced)))
-print("wpt file:", len(wptlist))
 
 
 
