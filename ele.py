@@ -525,11 +525,11 @@ trk_elevation_list_shifted=[]
 
 if trk_shift0>trk_shift1:
     for trk_point in range(trk_counter):
-        trk_shift=(trk_counter-trk_point)/trk_counter*trk_shift0 + trk_shift1
+        trk_shift=(trk_counter-trk_point)/trk_counter*(trk_shift0-trk_shift1) + trk_shift1
         trk_elevation_list_shifted.append(round(trklist[trk_point][elevation] + trk_shift,1))
 else:
     for trk_point in range(trk_counter):
-        trk_shift=(trk_point)/trk_counter*trk_shift1 + trk_shift0
+        trk_shift=(trk_point)/trk_counter*(trk_shift1-trk_shift0) + trk_shift0
         trk_elevation_list_shifted.append(round(trklist[trk_point][elevation] + trk_shift,1))
 
 
@@ -720,7 +720,8 @@ plt.xlabel("Vzdialenosť(m)")
 plt.ylabel("Nadm. výška(m)")
 plt.grid()
 plt.legend(fontsize='small')
-plt.savefig(tzt_figure_name + ".png")
+#plt.savefig(tzt_figure_name + ".png")
+plt.savefig(file + ".png")
 
 
 
