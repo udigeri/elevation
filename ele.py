@@ -10,15 +10,22 @@ import matplotlib.pyplot as plt
 #HELP
 def help():
     h="""
-ELE.PY Ver.:1.0.0.@0
+ELE.PY Ver.:1.0.0.@0 
+©Pavol Hudak
 Tento skript spracuje .gpx subor pre potreby vytvorenia/najdenia/pridania zlomov.
 OPTIONS parametre
 -h(help) - vypisanie napovedy napr. (-h)
--i(input) filename.extension - vstupny subor napr.(-i 8674.gpx)
+-i(input) subor.pripona - vstupny subor napr.(-i 8674.gpx)
 -r(reverse) - vykresli .gpx subor v opacnom poradi napr. (-r)
 -s(step) hodnota - vytvori novu krivku, kde bude pouzity kazdy dalsi bod vacsi ako hodnota (v metroch) napr. (-s 15)
 -shiftA(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftA 26.28)
--shiftB(posun) hodnota - posun nadmorskej vysky krivky na zaciatku o uvedenu hodnotu (v metroch) napr. (-shiftB -5.52)
+-shiftB(posun) hodnota - posun nadmorskej vysky krivky na konci o uvedenu hodnotu (v metroch) napr. (-shiftB -5.52)
+
+subor.pripona_reduced.gpx - novy subor s vynechanim nadbytocnych bodov podla -s (step)
+subor.pripona_rounded.gpx - novy subor so zaokruhlenim zemep. dlzky, sirky na 6 desatinnych cisel a nadm vysky na 1 desatinne miesto
+subor.pripona_shifted.gpx - novy subor s upravou nadmorskej vysky (nakalibrovanim) podla shiftA a shiftB
+subor.pripona_wpt.txt - novy subor s detailnymi informaciami o zaujimavych bodoch (zlomy/TIM/ZK znackovaci kolik ...)
+subor.pripona.png - novy subor s detailnymi informaciami o vyskovom profile trasy
 """
     print (h)
     return 0
@@ -414,7 +421,7 @@ for wpt_point in range(wpt_counter):
 indexA=0
 indexB=0
 for wpt_point in range(0, wpt_counter):
-    if wptlist[wpt_point][desc].lower() != "zlom":
+    if (wptlist[wpt_point][desc].lower() != "zlom") and (wptlist[wpt_point][desc].lower() != "zk"):
         if indexA == indexB == wpt_point:
             indexA = wpt_point
             wptlist[indexA][11] = round((wptlist[indexB][minAB+2] - wptlist[indexA][11]), 2)
@@ -428,7 +435,7 @@ for wpt_point in range(0, wpt_counter):
 indexA=wpt_counter-1
 indexB=wpt_counter-1
 for wpt_point in range(wpt_counter, 0, -1):
-    if wptlist[wpt_point-1][desc].lower() != "zlom":
+    if (wptlist[wpt_point-1][desc].lower() != "zlom") and (wptlist[wpt_point-1][desc].lower() != "zk"):
         if indexB == indexA == wpt_point-1:
             indexB = wpt_point-1
             wptlist[indexB][12] = round((wptlist[indexA][minBA+2] - wptlist[indexB][12]), 2)
@@ -467,24 +474,39 @@ for i in range(2):
     print("\n", end="\n")
 
     print("Statistika trasy:", file, end="\n")
-    print("min. nadm. vyska: {:.1f} m".format(whole_min_elevation))
-    print("max. nadm. vyska: {:.1f} m".format(whole_max_elevation))
-    print("dlzka trasy: {:.0f} m".format(whole_distance))
-    print("\n")
-    print("normal subor: {:d} bodov".format(len(trklist)))
-    print("reduced subor (each {:.1f} m): {:d}".format(step, len(trklistAB_reduced)))
-    print("wpt subor: {:d} bodov".format(len(wptlist)))
+    print("\tmin. nadm. vyska: {:.1f} m".format(whole_min_elevation))
+    print("\tmax. nadm. vyska: {:.1f} m".format(whole_max_elevation))
+    print("\tdlzka trasy: {:.0f} m".format(whole_distance))
+    print("")
+    print("\tnormal subor: {:d} bodov".format(len(trklist)))
+    print("\treduced subor (kazdych {:.1f} m): {:d} bodov".format(step, len(trklistAB_reduced)))
+    print("\twpt subor: {:d} bodov".format(len(wptlist)))
 
     print("\n", end="\n")
     for wpt_point in range(wpt_counter):
+        degree = int(wptlist[wpt_point][latitude])
+        minutes = int((wptlist[wpt_point][latitude] - degree)*60)
+        seconds = round(((wptlist[wpt_point][latitude] - degree) - minutes/60), 6)
+        londegree = int(wptlist[wpt_point][longitude])
+        lonminutes = int((wptlist[wpt_point][longitude] - londegree)*60)
+        lonseconds = round(((wptlist[wpt_point][longitude] - londegree) - lonminutes/60), 6)
+        print("Coordinates: N {:d}°{:d}'{:2.1f}\" E {:d}°{:d}'{:04.1f}\"".format(
+            degree, 
+            minutes,
+            seconds*60*60,
+            londegree, 
+            lonminutes,
+            lonseconds*60*60
+            ), end="\t")
         print(wptlist[wpt_point], end="\n")
-
+        
     width = 16
+    print("")
     print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
-    print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'Čas ↓ (min)', 'Čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
+    print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'WPT čas ↓ (min)', 'WPT čas ↑ (min)', 'Kum. čas ↓ (min)', 'Kum. čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
     print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
     for wpt_point in range(wpt_counter):
-        if wptlist[wpt_point][desc].lower() == "zlom":
+        if (wptlist[wpt_point][desc].lower() == "zlom") or (wptlist[wpt_point][desc].lower() == "zk"):
             print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format(wptlist[wpt_point][desc], 
                 round(wptlist[wpt_point][elevation]),
                 round(wptlist[wpt_point][distanceAB]/1000,2),
@@ -700,12 +722,6 @@ for wpt_point in range(wpt_counter):
 plt.plot(wpt_distance_list_output, wpt_elevation_list_output, alpha=0.75, color="black")
 
 
-
-zlomy=[]
-zlom=()
-for wpt_point in range(wpt_counter):
-    zlom = (wptlist[wpt_point][desc], round(trk_distance_list_output[wpt_index_list_output[wpt_point]]), round(wpt_elevation_list_output[wpt_point],1))
-    zlomy.append(zlom)
 
 collabel=(tzt_figure_name, "Kilom. poloha (m)", "Nadm. výška (m)")
 #axs[0].axis('tight')
