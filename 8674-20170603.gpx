@@ -5,9 +5,9 @@
         <link href="http://www.garmin.com"></link>
         <time>2020-02-11T20:53:42.860Z</time>
     </metadata>
-    <wpt lon="18.718831" lat="49.278151">
-        <ele>488.442749</ele>
-        <time>2017-06-03T13:06:54Z</time>
+    <wpt lon="18.718607" lat="49.278113">
+        <ele>484.300000</ele>
+        <time>2017-06-03T13:08:42Z</time>
         <name>TIM Sedlo pod Závrším</name>
     </wpt>
     <wpt lon="18.695134" lat="49.270932">
@@ -24,6 +24,10 @@
             </gpxx:TrackExtension>
         </extensions>
         <trkseg>
+            <trkpt lon="18.718607" lat="49.278113">
+                <ele>484.300000</ele>
+                <time>2017-06-03T13:08:42Z</time>
+            </trkpt>
             <trkpt lon="18.718550" lat="49.278080">
                 <ele>483.200000</ele>
                 <time>2017-06-03T13:08:48Z</time>
@@ -611,6 +615,10 @@
             <trkpt lon="18.695308" lat="49.270971">
                 <ele>364.480000</ele>
                 <time>2017-06-03T13:46:14Z</time>
+            </trkpt>
+            <trkpt lon="18.695181" lat="49.271006">
+                <ele>363.300000</ele>
+                <time>2017-06-03T13:46:20Z</time>
             </trkpt>
         </trkseg>
     </trk>
