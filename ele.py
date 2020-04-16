@@ -490,7 +490,7 @@ for i in range(2):
         londegree = int(wptlist[wpt_point][longitude])
         lonminutes = int((wptlist[wpt_point][longitude] - londegree)*60)
         lonseconds = round(((wptlist[wpt_point][longitude] - londegree) - lonminutes/60), 6)
-        print("Coordinates: N {:d}°{:d}'{:2.1f}\" E {:d}°{:d}'{:04.1f}\"".format(
+        print("Coordinates: N {:02d}°{:02d}'{:04.1f}\" E {:02d}°{:02d}'{:04.1f}\"".format(
             degree, 
             minutes,
             seconds*60*60,
@@ -735,7 +735,7 @@ collabel=(tzt_figure_name, "Kilom. poloha (m)", "Nadm. výška (m)")
 plt.xlabel("Vzdialenosť(m)")
 plt.ylabel("Nadm. výška(m)")
 plt.grid()
-plt.legend(fontsize='small')
+plt.legend(fontsize='small', loc='lower center')
 #plt.savefig(tzt_figure_name + ".png")
 plt.savefig(file + ".png")
 
