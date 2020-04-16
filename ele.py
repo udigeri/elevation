@@ -503,7 +503,7 @@ for i in range(2):
     width = 16
     print("")
     print('+{:-^{wid}}+'.format('WAY POINT zoznam', wid=width*10+3+3+2))
-    print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'WPT čas ↓ (min)', 'WPT čas ↑ (min)', 'Kum. čas ↓ (min)', 'Kum. čas ↑ (min)', 'TIM Čas ↓ (min)', 'TIM Čas ↑ (min)', end='|',wid2=2*width,wid=width))
+    print('|{:<{wid2}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|{:^{wid}}|'.format('Názov TIMu', 'Nadm. výška (m)', 'Km. poloha (km)', 'WPT čas ↓ (min)', 'WPT čas ↑ (min)', 'Kum. čas ↓ (min)', 'Kum. čas ↑ (min)', 'TIM čas ↓ (min)', 'TIM čas ↑ (min)', end='|',wid2=2*width,wid=width))
     print('+{:-^{wid}}+'.format('', wid=width*10+3+3+2))
     for wpt_point in range(wpt_counter):
         if (wptlist[wpt_point][desc].lower() == "zlom") or (wptlist[wpt_point][desc].lower() == "zk"):
