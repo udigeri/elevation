@@ -5,14 +5,14 @@
         <link href="http://www.garmin.com"></link>
         <time>2020-02-11T20:53:42.860Z</time>
     </metadata>
-    <wpt lon="18.718607" lat="49.278113">
-        <ele>484.300000</ele>
+    <wpt lon="18.718668" lat="49.278103">
+        <ele>515.0</ele>
         <time>2017-06-03T13:08:42Z</time>
         <name>TIM Sedlo pod Závrším</name>
     </wpt>
-    <wpt lon="18.695134" lat="49.270932">
-        <ele>361.196167</ele>
-        <time>2017-06-03T13:47:04Z</time>
+    <wpt lon="18.695181" lat="49.271006">
+        <ele>360.000000</ele>
+         <time>2017-06-03T13:46:20Z</time>
         <name>TIM Divina</name>
     </wpt>
     <trk>
@@ -24,6 +24,10 @@
             </gpxx:TrackExtension>
         </extensions>
         <trkseg>
+            <trkpt lon="18.718668" lat="49.278103">
+                <ele>485.400000</ele>
+                <time>2017-06-03T13:08:40Z</time>
+            </trkpt>
             <trkpt lon="18.718607" lat="49.278113">
                 <ele>484.300000</ele>
                 <time>2017-06-03T13:08:42Z</time>
