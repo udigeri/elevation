@@ -18,10 +18,40 @@
         <time>2018-09-21T10:02:32.051Z</time>
         <name>TIM Chata pod Suchým</name>
     </wpt>
+    <wpt lon="18.935109" lat="49.176606">
+        <ele>1066.000000</ele>
+        <time>2018-09-21T10:02:32.051Z</time>
+        <dst>238</dst>
+        <name>zlom</name>
+    </wpt>
+    <wpt lon="18.935109" lat="49.176606">
+        <ele>1066.000000</ele>
+        <time>2018-09-21T10:02:32.051Z</time>
+        <dst>340</dst>
+        <name>zlom</name>
+    </wpt>
+    <wpt lon="18.935109" lat="49.176606">
+        <ele>1066.000000</ele>
+        <time>2018-09-21T10:02:32.051Z</time>
+        <dst>1758</dst>
+        <name>zlom</name>
+    </wpt>
+    <wpt lon="18.935109" lat="49.176606">
+        <ele>1066.000000</ele>
+        <time>2018-09-21T10:02:32.051Z</time>
+        <dst>3630</dst>
+        <name>zlom</name>
+    </wpt>
     <wpt lon="18.892892" lat="49.179899">
         <ele>434.000000</ele>
         <time>2018-09-21T10:57:02.025Z</time>
         <name>TIM Podhradské</name>
+    </wpt>
+    <wpt lon="18.935109" lat="49.176606">
+        <ele>1066.000000</ele>
+        <time>2018-09-21T10:02:32.051Z</time>
+        <dst>4700</dst>
+        <name>zlom</name>
     </wpt>
     <wpt lon="18.865949" lat="49.179277">
         <ele>356.000000</ele>

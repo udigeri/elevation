@@ -39,9 +39,9 @@
                 "-s",
                 "15",
                 "-shiftA",
-                "26.28",
+                "28.7",
                 "-shiftB",
-                "5.52"
+                "-3.3"
             ],
             "console": "integratedTerminal"
         }

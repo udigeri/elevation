@@ -17,6 +17,12 @@
         <time>2019-08-31T10:23:28Z</time>
         <name>ZK</name>
     </wpt>
+    <wpt lon="18.769986" lat="49.132166">
+        <ele>805.000000</ele>
+        <time>2019-08-31T10:23:28Z</time>
+        <dst>1380</dst>
+        <name>zlom</name>
+    </wpt>
     <wpt lon="18.761333" lat="49.143572">
         <ele>535.000000</ele>
         <time>2019-08-31T11:59:30Z</time>
