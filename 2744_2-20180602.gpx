@@ -8,17 +8,17 @@
         <time>2020-02-11T20:37:33.347Z</time>
     </metadata>
     <wpt lon="18.668924" lat="49.356248">
-        <ele>805.000000</ele>
+        <ele>800</ele>
         <time>2018-06-02T09:47:04Z</time>
         <name>TIM Sedlo pod Grapou</name>
     </wpt>
     <wpt lon="18.678506" lat="49.332225">
-        <ele>819.000000</ele>
+        <ele>810</ele>
         <time>2018-06-02T10:24:06.120Z</time>
         <name>TIM Sedlo pod Kazíckou Kýčerou</name>
     </wpt>
     <wpt lon="18.698754" lat="49.313401">
-        <ele>613.000000</ele>
+        <ele>600</ele>
         <time>2018-06-02T10:58:50.109Z</time>
         <name>TIM Sedlo pod Ráztokou</name>
     </wpt>
