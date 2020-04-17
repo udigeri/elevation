@@ -8,37 +8,37 @@
         <time>2019-09-02T16:56:13.321Z</time>
     </metadata>
     <wpt lon="18.738150" lat="49.236020">
-        <ele>315.000000</ele>
+        <ele>336.000000</ele>
         <time>2019-09-01T08:47:41Z</time>
         <name>TIM Budatín</name>
     </wpt>
     <wpt lon="18.760533" lat="49.232860">
-        <ele>578.000000</ele>
+        <ele>570.000000</ele>
         <time>2019-09-01T09:14:00Z</time>
         <name>TIM Vyhliadková veža Dubeň</name>
     </wpt>
     <wpt lon="18.780840" lat="49.233815">
-        <ele>612.000000</ele>
+        <ele>607.000000</ele>
         <time>2019-09-01T09:35:24Z</time>
         <name>TIM Dubeň</name>
     </wpt>
     <wpt lon="18.798310" lat="49.238919">
-        <ele>549.000000</ele>
+        <ele>543.000000</ele>
         <time>2019-09-01T09:47:27Z</time>
         <name>TIM Zástranie, odbočka na salaš</name>
     </wpt>
     <wpt lon="18.812695" lat="49.239174">
-        <ele>550.000000</ele>
+        <ele>548.000000</ele>
         <time>2019-09-01T09:52:37Z</time>
         <name>TIM Zástranie</name>
     </wpt>
     <wpt lon="18.826291" lat="49.254472">
-        <ele>665.000000</ele>
+        <ele>661.000000</ele>
         <time>2019-09-01T10:08:23Z</time>
         <name>TIM Pod Kučerovkou</name>
     </wpt>
     <wpt lon="18.851456" lat="49.254643">
-        <ele>556.000000</ele>
+        <ele>554.000000</ele>
         <time>2019-09-01T10:22:15Z</time>
         <name>TIM Kotrčina Lúčka, Stráň</name>
     </wpt>
@@ -52,347 +52,63 @@
         </extensions>
         <trkseg>
             <trkpt lon="18.738150" lat="49.236020">
-                <ele>315.000000</ele>
+                <ele>340.000000</ele>
                 <time>2019-09-01T08:47:41Z</time>
             </trkpt>
-            <trkpt lon="18.738150" lat="49.236020">
-                <ele>315.000000</ele>
-                <time>2019-09-01T08:47:42Z</time>
-            </trkpt>
             <trkpt lon="18.738149" lat="49.236021">
-                <ele>315.000000</ele>
+                <ele>339.000000</ele>
                 <time>2019-09-01T08:47:43Z</time>
             </trkpt>
-            <trkpt lon="18.738145" lat="49.236021">
-                <ele>316.000000</ele>
-                <time>2019-09-01T08:47:44Z</time>
-            </trkpt>
             <trkpt lon="18.738146" lat="49.236019">
-                <ele>317.000000</ele>
+                <ele>339.000000</ele>
                 <time>2019-09-01T08:47:45Z</time>
             </trkpt>
-            <trkpt lon="18.738151" lat="49.236016">
-                <ele>317.000000</ele>
-                <time>2019-09-01T08:47:46Z</time>
-            </trkpt>
-            <trkpt lon="18.738164" lat="49.236010">
-                <ele>317.000000</ele>
-                <time>2019-09-01T08:47:47Z</time>
-            </trkpt>
             <trkpt lon="18.738180" lat="49.236003">
-                <ele>317.000000</ele>
+                <ele>338.000000</ele>
                 <time>2019-09-01T08:47:48Z</time>
             </trkpt>
-            <trkpt lon="18.738199" lat="49.235996">
-                <ele>317.000000</ele>
-                <time>2019-09-01T08:47:49Z</time>
-            </trkpt>
             <trkpt lon="18.738217" lat="49.235987">
-                <ele>317.000000</ele>
+                <ele>337.000000</ele>
                 <time>2019-09-01T08:47:50Z</time>
             </trkpt>
-            <trkpt lon="18.738235" lat="49.235979">
-                <ele>318.000000</ele>
-                <time>2019-09-01T08:47:51Z</time>
-            </trkpt>
-            <trkpt lon="18.738254" lat="49.235971">
-                <ele>318.000000</ele>
-                <time>2019-09-01T08:47:52Z</time>
-            </trkpt>
             <trkpt lon="18.738273" lat="49.235963">
-                <ele>318.000000</ele>
+                <ele>337.000000</ele>
                 <time>2019-09-01T08:47:53Z</time>
             </trkpt>
-            <trkpt lon="18.738290" lat="49.235955">
-                <ele>319.000000</ele>
-                <time>2019-09-01T08:47:54Z</time>
-            </trkpt>
-            <trkpt lon="18.738307" lat="49.235947">
-                <ele>320.000000</ele>
-                <time>2019-09-01T08:47:55Z</time>
-            </trkpt>
             <trkpt lon="18.738322" lat="49.235940">
-                <ele>320.000000</ele>
+                <ele>338.000000</ele>
                 <time>2019-09-01T08:47:56Z</time>
             </trkpt>
-            <trkpt lon="18.738339" lat="49.235933">
-                <ele>321.000000</ele>
-                <time>2019-09-01T08:47:57Z</time>
-            </trkpt>
             <trkpt lon="18.738356" lat="49.235927">
-                <ele>321.000000</ele>
+                <ele>339.000000</ele>
                 <time>2019-09-01T08:47:58Z</time>
             </trkpt>
-            <trkpt lon="18.738375" lat="49.235921">
-                <ele>321.000000</ele>
-                <time>2019-09-01T08:47:59Z</time>
-            </trkpt>
-            <trkpt lon="18.738393" lat="49.235916">
-                <ele>321.000000</ele>
-                <time>2019-09-01T08:48:00Z</time>
-            </trkpt>
-            <trkpt lon="18.738411" lat="49.235910">
-                <ele>321.000000</ele>
-                <time>2019-09-01T08:48:01Z</time>
-            </trkpt>
-            <trkpt lon="18.738421" lat="49.235901">
-                <ele>320.000000</ele>
-                <time>2019-09-01T08:48:02Z</time>
-            </trkpt>
-            <trkpt lon="18.738429" lat="49.235890">
-                <ele>320.000000</ele>
-                <time>2019-09-01T08:48:03Z</time>
-            </trkpt>
             <trkpt lon="18.738434" lat="49.235878">
-                <ele>319.000000</ele>
+                <ele>339.000000</ele>
                 <time>2019-09-01T08:48:04Z</time>
             </trkpt>
-            <trkpt lon="18.738446" lat="49.235867">
-                <ele>319.000000</ele>
-                <time>2019-09-01T08:48:05Z</time>
-            </trkpt>
-            <trkpt lon="18.738454" lat="49.235857">
-                <ele>318.000000</ele>
-                <time>2019-09-01T08:48:06Z</time>
-            </trkpt>
-            <trkpt lon="18.738460" lat="49.235847">
-                <ele>317.000000</ele>
-                <time>2019-09-01T08:48:07Z</time>
-            </trkpt>
-            <trkpt lon="18.738466" lat="49.235836">
-                <ele>316.000000</ele>
-                <time>2019-09-01T08:48:08Z</time>
-            </trkpt>
-            <trkpt lon="18.738476" lat="49.235826">
-                <ele>315.000000</ele>
-                <time>2019-09-01T08:48:09Z</time>
-            </trkpt>
-            <trkpt lon="18.738491" lat="49.235818">
-                <ele>315.000000</ele>
-                <time>2019-09-01T08:48:10Z</time>
-            </trkpt>
-            <trkpt lon="18.738507" lat="49.235812">
-                <ele>314.000000</ele>
-                <time>2019-09-01T08:48:11Z</time>
-            </trkpt>
-            <trkpt lon="18.738522" lat="49.235805">
-                <ele>313.000000</ele>
-                <time>2019-09-01T08:48:12Z</time>
-            </trkpt>
-            <trkpt lon="18.738537" lat="49.235798">
-                <ele>313.000000</ele>
-                <time>2019-09-01T08:48:13Z</time>
-            </trkpt>
-            <trkpt lon="18.738551" lat="49.235793">
-                <ele>312.000000</ele>
-                <time>2019-09-01T08:48:14Z</time>
-            </trkpt>
-            <trkpt lon="18.738567" lat="49.235790">
-                <ele>312.000000</ele>
-                <time>2019-09-01T08:48:15Z</time>
-            </trkpt>
             <trkpt lon="18.738583" lat="49.235786">
-                <ele>311.000000</ele>
+                <ele>340.000000</ele>
                 <time>2019-09-01T08:48:16Z</time>
             </trkpt>
-            <trkpt lon="18.738599" lat="49.235781">
-                <ele>311.000000</ele>
-                <time>2019-09-01T08:48:17Z</time>
-            </trkpt>
-            <trkpt lon="18.738616" lat="49.235775">
-                <ele>311.000000</ele>
-                <time>2019-09-01T08:48:18Z</time>
-            </trkpt>
-            <trkpt lon="18.738632" lat="49.235769">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:19Z</time>
-            </trkpt>
-            <trkpt lon="18.738649" lat="49.235763">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:20Z</time>
-            </trkpt>
-            <trkpt lon="18.738667" lat="49.235757">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:21Z</time>
-            </trkpt>
-            <trkpt lon="18.738686" lat="49.235751">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:22Z</time>
-            </trkpt>
-            <trkpt lon="18.738705" lat="49.235745">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:23Z</time>
-            </trkpt>
-            <trkpt lon="18.738724" lat="49.235740">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:24Z</time>
-            </trkpt>
-            <trkpt lon="18.738742" lat="49.235738">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:25Z</time>
-            </trkpt>
-            <trkpt lon="18.738760" lat="49.235737">
-                <ele>309.000000</ele>
-                <time>2019-09-01T08:48:26Z</time>
-            </trkpt>
-            <trkpt lon="18.738780" lat="49.235738">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:27Z</time>
-            </trkpt>
-            <trkpt lon="18.738801" lat="49.235738">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:28Z</time>
-            </trkpt>
-            <trkpt lon="18.738822" lat="49.235737">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:29Z</time>
-            </trkpt>
-            <trkpt lon="18.738842" lat="49.235735">
-                <ele>306.000000</ele>
-                <time>2019-09-01T08:48:30Z</time>
-            </trkpt>
             <trkpt lon="18.738861" lat="49.235733">
-                <ele>306.000000</ele>
+                <ele>340.000000</ele>
                 <time>2019-09-01T08:48:31Z</time>
             </trkpt>
-            <trkpt lon="18.738878" lat="49.235732">
-                <ele>306.000000</ele>
-                <time>2019-09-01T08:48:32Z</time>
-            </trkpt>
-            <trkpt lon="18.738894" lat="49.235732">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:33Z</time>
-            </trkpt>
-            <trkpt lon="18.738909" lat="49.235732">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:34Z</time>
-            </trkpt>
-            <trkpt lon="18.738923" lat="49.235733">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:35Z</time>
-            </trkpt>
-            <trkpt lon="18.738937" lat="49.235733">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:36Z</time>
-            </trkpt>
-            <trkpt lon="18.738952" lat="49.235733">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:37Z</time>
-            </trkpt>
-            <trkpt lon="18.738967" lat="49.235730">
-                <ele>307.000000</ele>
-                <time>2019-09-01T08:48:38Z</time>
-            </trkpt>
-            <trkpt lon="18.738982" lat="49.235727">
-                <ele>308.000000</ele>
-                <time>2019-09-01T08:48:39Z</time>
-            </trkpt>
-            <trkpt lon="18.738996" lat="49.235724">
-                <ele>309.000000</ele>
-                <time>2019-09-01T08:48:40Z</time>
-            </trkpt>
-            <trkpt lon="18.739010" lat="49.235722">
-                <ele>309.000000</ele>
-                <time>2019-09-01T08:48:41Z</time>
-            </trkpt>
-            <trkpt lon="18.739024" lat="49.235720">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:42Z</time>
-            </trkpt>
-            <trkpt lon="18.739040" lat="49.235718">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:43Z</time>
-            </trkpt>
-            <trkpt lon="18.739057" lat="49.235715">
-                <ele>310.000000</ele>
-                <time>2019-09-01T08:48:44Z</time>
-            </trkpt>
-            <trkpt lon="18.739073" lat="49.235712">
-                <ele>311.000000</ele>
-                <time>2019-09-01T08:48:45Z</time>
-            </trkpt>
-            <trkpt lon="18.739089" lat="49.235709">
-                <ele>312.000000</ele>
-                <time>2019-09-01T08:48:46Z</time>
-            </trkpt>
-            <trkpt lon="18.739106" lat="49.235706">
-                <ele>312.000000</ele>
-                <time>2019-09-01T08:48:47Z</time>
-            </trkpt>
-            <trkpt lon="18.739123" lat="49.235703">
-                <ele>311.000000</ele>
-                <time>2019-09-01T08:48:48Z</time>
-            </trkpt>
-            <trkpt lon="18.739138" lat="49.235697">
-                <ele>315.000000</ele>
-                <time>2019-09-01T08:48:49Z</time>
-            </trkpt>
-            <trkpt lon="18.739155" lat="49.235689">
-                <ele>316.000000</ele>
-                <time>2019-09-01T08:48:50Z</time>
-            </trkpt>
-            <trkpt lon="18.739172" lat="49.235679">
-                <ele>318.000000</ele>
-                <time>2019-09-01T08:48:51Z</time>
-            </trkpt>
-            <trkpt lon="18.739189" lat="49.235668">
-                <ele>324.000000</ele>
-                <time>2019-09-01T08:48:52Z</time>
-            </trkpt>
-            <trkpt lon="18.739209" lat="49.235657">
-                <ele>327.000000</ele>
-                <time>2019-09-01T08:48:53Z</time>
-            </trkpt>
-            <trkpt lon="18.739228" lat="49.235649">
-                <ele>327.000000</ele>
-                <time>2019-09-01T08:48:54Z</time>
-            </trkpt>
-            <trkpt lon="18.739246" lat="49.235645">
-                <ele>327.000000</ele>
-                <time>2019-09-01T08:48:55Z</time>
-            </trkpt>
-            <trkpt lon="18.739260" lat="49.235643">
-                <ele>329.000000</ele>
-                <time>2019-09-01T08:48:56Z</time>
-            </trkpt>
-            <trkpt lon="18.739269" lat="49.235641">
-                <ele>331.000000</ele>
-                <time>2019-09-01T08:48:57Z</time>
-            </trkpt>
-            <trkpt lon="18.739277" lat="49.235638">
-                <ele>332.000000</ele>
-                <time>2019-09-01T08:48:58Z</time>
-            </trkpt>
-            <trkpt lon="18.739286" lat="49.235633">
-                <ele>332.000000</ele>
-                <time>2019-09-01T08:48:59Z</time>
-            </trkpt>
             <trkpt lon="18.739293" lat="49.235628">
-                <ele>333.000000</ele>
+                <ele>340.500000</ele>
                 <time>2019-09-01T08:49:00Z</time>
             </trkpt>
-            <trkpt lon="18.739301" lat="49.235623">
-                <ele>334.000000</ele>
-                <time>2019-09-01T08:49:01Z</time>
-            </trkpt>
             <trkpt lon="18.739308" lat="49.235618">
-                <ele>335.000000</ele>
+                <ele>340.000000</ele>
                 <time>2019-09-01T08:49:02Z</time>
             </trkpt>
-            <trkpt lon="18.739315" lat="49.235611">
-                <ele>338.000000</ele>
-                <time>2019-09-01T08:49:03Z</time>
-            </trkpt>
-            <trkpt lon="18.739325" lat="49.235603">
-                <ele>339.000000</ele>
-                <time>2019-09-01T08:49:04Z</time>
-            </trkpt>
             <trkpt lon="18.739334" lat="49.235594">
-                <ele>339.000000</ele>
+                <ele>340.000000</ele>
                 <time>2019-09-01T08:49:05Z</time>
             </trkpt>
             <trkpt lon="18.739341" lat="49.235584">
-                <ele>340.000000</ele>
+                <ele>340.500000</ele>
                 <time>2019-09-01T08:49:06Z</time>
             </trkpt>
             <trkpt lon="18.739349" lat="49.235575">
