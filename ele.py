@@ -126,9 +126,11 @@ for elem in root.iter():
             for name, value in elem.items():
                 if (name == "lon"):
                     value = round(float(value),6)
+                    elem.set("lon", str(value))
                     wpt[longitude]=value
                 elif (name == "lat"):
                     value = round(float(value),6)
+                    elem.set("lat", str(value))
                     wpt[latitude]=value
                 #print(name, value)
         if list(elem):
@@ -174,9 +176,11 @@ for elem in root.iter():
             for name, value in elem.items():
                 if (name == "lon"):
                     value = round(float(value),6)
+                    elem.set("lon", str(value))
                     trk[longitude]=value
                 elif (name == "lat"):
                     value = round(float(value),6)
+                    elem.set("lat", str(value))
                     trk[latitude]=value
         if list(elem):
             for child in elem:
@@ -563,8 +567,33 @@ data=open(file, encoding="utf-8")
 tree_new = et.parse(data)
 i=0
 for elem in tree_new.iter():
+    #PARSING WPT ELEMENT
+    if elem.tag.endswith("wpt"):
+        if elem.keys():
+            for name, value in elem.items():
+                if (name == "lon"):
+                    value = round(float(value),6)
+                    elem.set("lon", str(value))
+                elif (name == "lat"):
+                    value = round(float(value),6)
+                    elem.set("lat", str(value))
+        if list(elem):
+            for child in elem:
+                if child.tag.endswith("ele"):
+                    child.text = str(round(float(child.text),1))
+                elif child.tag.endswith("dst"):
+                    child.text = str(round(float(child.text)))
+
     #PARSING TRKPT ELEMENT
-    if elem.tag.endswith("trkpt"):
+    elif elem.tag.endswith("trkpt"):
+        if elem.keys():
+            for name, value in elem.items():
+                if (name == "lon"):
+                    value = round(float(value),6)
+                    elem.set("lon", str(value))
+                elif (name == "lat"):
+                    value = round(float(value),6)
+                    elem.set("lat", str(value))
         if list(elem):
             for child in elem:
                 if child.tag.endswith("ele"):
