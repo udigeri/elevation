@@ -85,6 +85,19 @@
                 "5.52"
             ],
             "console": "integratedTerminal"
+        },
+        {
+            "name": "dubova",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "-i",
+                "dubova.gpx",
+                "-s",
+                "15"
+            ],
+            "console": "integratedTerminal"
         }
     ]
 }
