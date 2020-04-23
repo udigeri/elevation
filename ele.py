@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 import xml.etree.ElementTree as et
@@ -773,4 +774,50 @@ plt.savefig(file + ".png")
 
 
 plt.show()
+
+print("Adjusting .gpx files")
+data = open(file, "rt", encoding="utf-8")
+fn = data.name
+data.close()
+
+os.rename(fn+"_rounded.gpx", fn+"_rounded_bak.gpx")
+fin = open(fn+"_rounded_bak.gpx", "rt", encoding="utf-8")
+fout = open(fn+"_rounded.gpx", "wt", encoding="UTF-8")
+
+for line in fin:
+    line1 = line.replace("ns0:", "")
+    line2 = line1.replace(":ns0", "")
+    line3 = line2.replace("ns2", "gpxx")
+    fout.write(line3)
+fout.close
+fin.close()
+os.remove(fn+"_rounded_bak.gpx")
+
+
+os.rename(fn+"_reduced.gpx", fn+"_reduced_bak.gpx")
+fin = open(fn+"_reduced_bak.gpx", "rt", encoding="utf-8")
+fout = open(fn+"_reduced.gpx", "wt", encoding="UTF-8")
+
+for line in fin:
+    line1 = line.replace("ns0:", "")
+    line2 = line1.replace(":ns0", "")
+    line3 = line2.replace("ns2", "gpxx")
+    fout.write(line3)
+fout.close
+fin.close()
+os.remove(fn+"_reduced_bak.gpx")
+
+
+os.rename(fn+"_shifted.gpx", fn+"_shifted_bak.gpx")
+fin = open(fn+"_shifted_bak.gpx", "rt", encoding="utf-8")
+fout = open(fn+"_shifted.gpx", "wt", encoding="UTF-8")
+
+for line in fin:
+    line1 = line.replace("ns0:", "")
+    line2 = line1.replace(":ns0", "")
+    line3 = line2.replace("ns2", "gpxx")
+    fout.write(line3)
+fout.close
+fin.close()
+os.remove(fn+"_shifted_bak.gpx")
 
