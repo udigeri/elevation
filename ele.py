@@ -152,7 +152,7 @@ for elem in root.iter():
 
     #PARSING TRK ELEMENT
     elif elem.tag.endswith("trk"):
-        if onetime==0:
+        if onetime==0 and len(wptlist):
             wptlist.pop(0)
             wptlist.append(wpt)
             onetime = 1
