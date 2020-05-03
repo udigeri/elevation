@@ -788,7 +788,8 @@ for line in fin:
     line1 = line.replace("ns0:", "")
     line2 = line1.replace(":ns0", "")
     line3 = line2.replace("ns2", "gpxx")
-    fout.write(line3)
+    line4 = line3.replace("<trkpt />", "")
+    fout.write(line4)
 fout.close
 fin.close()
 os.remove(fn+"_rounded_bak.gpx")
@@ -802,7 +803,8 @@ for line in fin:
     line1 = line.replace("ns0:", "")
     line2 = line1.replace(":ns0", "")
     line3 = line2.replace("ns2", "gpxx")
-    fout.write(line3)
+    line4 = line3.replace("<trkpt />", "")
+    fout.write(line4)
 fout.close
 fin.close()
 os.remove(fn+"_reduced_bak.gpx")
@@ -816,7 +818,8 @@ for line in fin:
     line1 = line.replace("ns0:", "")
     line2 = line1.replace(":ns0", "")
     line3 = line2.replace("ns2", "gpxx")
-    fout.write(line3)
+    line4 = line3.replace("<trkpt />", "")
+    fout.write(line4)
 fout.close
 fin.close()
 os.remove(fn+"_shifted_bak.gpx")
